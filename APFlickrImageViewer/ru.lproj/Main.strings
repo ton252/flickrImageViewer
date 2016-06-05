@@ -1,0 +1,12 @@
+
+/* Class = "UISearchBar"; placeholder = "Enter image tag here"; ObjectID = "TaU-qp-QzN"; */
+"TaU-qp-QzN.placeholder" = "Введите тег изображения";
+
+/* Class = "UISearchBar"; TaU-qp-QzN.scopeButtonTitles[0] = "Title"; ObjectID = "TaU-qp-QzN"; */
+"TaU-qp-QzN.scopeButtonTitles[0]" = "Title";
+
+/* Class = "UISearchBar"; TaU-qp-QzN.scopeButtonTitles[1] = "Title"; ObjectID = "TaU-qp-QzN"; */
+"TaU-qp-QzN.scopeButtonTitles[1]" = "Title";
+
+/* Class = "UILabel"; text = "Search radius:"; ObjectID = "mSZ-lS-3C6"; */
+"mSZ-lS-3C6.text" = "Радиус поиска:";

@@ -7,3 +7,7 @@
 */
 
 "Search radius" = "Радиус поиска %.1f км";
+"Loading pictures: " = "Загрузка изображений: ";
+"Location services are off"  = "Геолокации отключена";
+"Background location is not enabled" = "Геолокация в фоновом режиме недоступна";
+"To use background location you must turn on 'Always' in the Location Services Settings" = "Для использования геолокации в фоновом режиме включите 'Всегда' в настройках геолокации";

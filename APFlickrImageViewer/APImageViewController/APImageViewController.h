@@ -10,4 +10,6 @@
 
 @interface APImageViewController : UIViewController
 
+@property (assign, nonatomic) NSInteger imageIdentifier;
+
 @end

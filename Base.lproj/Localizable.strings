@@ -7,3 +7,8 @@
 */
 
 "Search radius" = "Search radius %.1f km";
+"Loading pictures: " = "Loading pictures: ";
+
+"Location services are off"  = "Location services are off";
+"Background location is not enabled" = "Background location is not enabled";
+"To use background location you must turn on 'Always' in the Location Services Settings" = "To use background location you must turn on 'Always' in the Location Services Settings";

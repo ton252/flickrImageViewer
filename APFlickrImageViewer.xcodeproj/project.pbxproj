@@ -15,11 +15,12 @@
 		7105843E1D045AF400324303 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 7105843C1D045AF400324303 /* LaunchScreen.storyboard */; };
 		710584491D045AF400324303 /* APFlickrImageViewerTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 710584481D045AF400324303 /* APFlickrImageViewerTests.m */; };
 		710584541D045AF500324303 /* APFlickrImageViewerUITests.m in Sources */ = {isa = PBXBuildFile; fileRef = 710584531D045AF500324303 /* APFlickrImageViewerUITests.m */; };
-		710584631D045F9800324303 /* MapViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 710584621D045F9800324303 /* MapViewController.m */; };
 		710584651D04601300324303 /* MapKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 710584641D04601300324303 /* MapKit.framework */; };
 		710584671D04601B00324303 /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 710584661D04601B00324303 /* CoreLocation.framework */; };
 		710584711D046ED200324303 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 710584731D046ED200324303 /* Localizable.strings */; };
-		710584781D047CB300324303 /* APImageViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 710584771D047CB300324303 /* APImageViewController.m */; };
+		710584861D04B10B00324303 /* MapViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 710584851D04B10B00324303 /* MapViewController.m */; };
+		7105848A1D04B11600324303 /* APImageViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 710584891D04B11600324303 /* APImageViewController.m */; };
+		7105848E1D04B12B00324303 /* APDownloadManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 7105848D1D04B12B00324303 /* APDownloadManager.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -55,17 +56,19 @@
 		7105844F1D045AF500324303 /* APFlickrImageViewerUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = APFlickrImageViewerUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		710584531D045AF500324303 /* APFlickrImageViewerUITests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = APFlickrImageViewerUITests.m; sourceTree = "<group>"; };
 		710584551D045AF500324303 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		710584611D045F9800324303 /* MapViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MapViewController.h; sourceTree = "<group>"; };
-		710584621D045F9800324303 /* MapViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MapViewController.m; sourceTree = "<group>"; };
 		710584641D04601300324303 /* MapKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MapKit.framework; path = System/Library/Frameworks/MapKit.framework; sourceTree = SDKROOT; };
 		710584661D04601B00324303 /* CoreLocation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreLocation.framework; path = System/Library/Frameworks/CoreLocation.framework; sourceTree = SDKROOT; };
-		7105846B1D0460DF00324303 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Main.strings; sourceTree = "<group>"; };
-		7105846F1D046EC900324303 /* ru */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ru; path = ru.lproj/Main.strings; sourceTree = "<group>"; };
-		710584701D046ECA00324303 /* ru */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ru; path = ru.lproj/LaunchScreen.strings; sourceTree = "<group>"; };
 		710584721D046ED200324303 /* Base */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = Base; path = Base.lproj/Localizable.strings; sourceTree = "<group>"; };
-		710584751D046ED600324303 /* ru */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ru; path = ru.lproj/Localizable.strings; sourceTree = "<group>"; };
-		710584761D047CB300324303 /* APImageViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = APImageViewController.h; sourceTree = "<group>"; };
-		710584771D047CB300324303 /* APImageViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = APImageViewController.m; sourceTree = "<group>"; };
+		7105847C1D04A0F900324303 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Main.strings; sourceTree = "<group>"; };
+		7105847D1D04A0F900324303 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/LaunchScreen.strings; sourceTree = "<group>"; };
+		7105847E1D04A10900324303 /* ru */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ru; path = ru.lproj/Main.strings; sourceTree = "<group>"; };
+		7105847F1D04A10900324303 /* ru */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ru; path = ru.lproj/LaunchScreen.strings; sourceTree = "<group>"; };
+		710584841D04B10B00324303 /* MapViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MapViewController.h; sourceTree = "<group>"; };
+		710584851D04B10B00324303 /* MapViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MapViewController.m; sourceTree = "<group>"; };
+		710584881D04B11600324303 /* APImageViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = APImageViewController.h; sourceTree = "<group>"; };
+		710584891D04B11600324303 /* APImageViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = APImageViewController.m; sourceTree = "<group>"; };
+		7105848C1D04B12B00324303 /* APDownloadManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = APDownloadManager.h; sourceTree = "<group>"; };
+		7105848D1D04B12B00324303 /* APDownloadManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = APDownloadManager.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -123,11 +126,10 @@
 			children = (
 				7105842E1D045AF400324303 /* AppDelegate.h */,
 				7105842F1D045AF400324303 /* AppDelegate.m */,
+				7105848B1D04B12B00324303 /* APDownloadManager */,
+				710584871D04B11600324303 /* APImageViewController */,
+				710584831D04B10B00324303 /* MapViewController */,
 				710584341D045AF400324303 /* Main.storyboard */,
-				710584611D045F9800324303 /* MapViewController.h */,
-				710584621D045F9800324303 /* MapViewController.m */,
-				710584761D047CB300324303 /* APImageViewController.h */,
-				710584771D047CB300324303 /* APImageViewController.m */,
 				7105843A1D045AF400324303 /* Assets.xcassets */,
 				7105843C1D045AF400324303 /* LaunchScreen.storyboard */,
 				7105843F1D045AF400324303 /* Info.plist */,
@@ -161,6 +163,34 @@
 				710584551D045AF500324303 /* Info.plist */,
 			);
 			path = APFlickrImageViewerUITests;
+			sourceTree = "<group>";
+		};
+		710584831D04B10B00324303 /* MapViewController */ = {
+			isa = PBXGroup;
+			children = (
+				710584841D04B10B00324303 /* MapViewController.h */,
+				710584851D04B10B00324303 /* MapViewController.m */,
+			);
+			path = MapViewController;
+			sourceTree = "<group>";
+		};
+		710584871D04B11600324303 /* APImageViewController */ = {
+			isa = PBXGroup;
+			children = (
+				710584881D04B11600324303 /* APImageViewController.h */,
+				710584891D04B11600324303 /* APImageViewController.m */,
+			);
+			name = APImageViewController;
+			path = APFlickrImageViewer/APImageViewController;
+			sourceTree = SOURCE_ROOT;
+		};
+		7105848B1D04B12B00324303 /* APDownloadManager */ = {
+			isa = PBXGroup;
+			children = (
+				7105848C1D04B12B00324303 /* APDownloadManager.h */,
+				7105848D1D04B12B00324303 /* APDownloadManager.m */,
+			);
+			path = APDownloadManager;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -246,8 +276,8 @@
 			developmentRegion = English;
 			hasScannedForEncodings = 0;
 			knownRegions = (
-				en,
 				Base,
+				en,
 				ru,
 			);
 			mainGroup = 7105841F1D045AF400324303;
@@ -296,10 +326,11 @@
 			buildActionMask = 2147483647;
 			files = (
 				710584301D045AF400324303 /* AppDelegate.m in Sources */,
-				710584781D047CB300324303 /* APImageViewController.m in Sources */,
+				7105848A1D04B11600324303 /* APImageViewController.m in Sources */,
 				710584391D045AF400324303 /* APFlickrImageViewer.xcdatamodeld in Sources */,
 				7105842D1D045AF400324303 /* main.m in Sources */,
-				710584631D045F9800324303 /* MapViewController.m in Sources */,
+				7105848E1D04B12B00324303 /* APDownloadManager.m in Sources */,
+				710584861D04B10B00324303 /* MapViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -339,8 +370,8 @@
 			isa = PBXVariantGroup;
 			children = (
 				710584351D045AF400324303 /* Base */,
-				7105846B1D0460DF00324303 /* en */,
-				7105846F1D046EC900324303 /* ru */,
+				7105847C1D04A0F900324303 /* en */,
+				7105847E1D04A10900324303 /* ru */,
 			);
 			name = Main.storyboard;
 			sourceTree = "<group>";
@@ -349,7 +380,8 @@
 			isa = PBXVariantGroup;
 			children = (
 				7105843D1D045AF400324303 /* Base */,
-				710584701D046ECA00324303 /* ru */,
+				7105847D1D04A0F900324303 /* en */,
+				7105847F1D04A10900324303 /* ru */,
 			);
 			name = LaunchScreen.storyboard;
 			sourceTree = "<group>";
@@ -358,7 +390,6 @@
 			isa = PBXVariantGroup;
 			children = (
 				710584721D046ED200324303 /* Base */,
-				710584751D046ED600324303 /* ru */,
 			);
 			name = Localizable.strings;
 			sourceTree = "<group>";
@@ -539,6 +570,7 @@
 				7105845A1D045AF500324303 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		7105845B1D045AF500324303 /* Build configuration list for PBXNativeTarget "APFlickrImageViewerTests" */ = {
 			isa = XCConfigurationList;
@@ -547,6 +579,7 @@
 				7105845D1D045AF500324303 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		7105845E1D045AF500324303 /* Build configuration list for PBXNativeTarget "APFlickrImageViewerUITests" */ = {
 			isa = XCConfigurationList;
@@ -555,6 +588,7 @@
 				710584601D045AF500324303 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 

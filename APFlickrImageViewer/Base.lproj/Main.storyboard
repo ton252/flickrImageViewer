@@ -46,16 +46,43 @@
                             </mapView>
                             <slider opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" value="32000" minValue="200" maxValue="32000" translatesAutoresizingMaskIntoConstraints="NO" id="8mQ-DV-RBg">
                                 <rect key="frame" x="18" y="562" width="564" height="31"/>
+                                <connections>
+                                    <action selector="setSliderValueAction:" destination="BYZ-38-t0r" eventType="valueChanged" id="ORs-Sw-1N5"/>
+                                </connections>
                             </slider>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Search radius:" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="1Dy-gm-5py">
                                 <rect key="frame" x="20" y="533" width="110" height="21"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
                                 <nil key="highlightedColor"/>
                             </label>
+                            <view hidden="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="taF-gg-jag">
+                                <rect key="frame" x="227" y="116" width="147" height="21"/>
+                                <subviews>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Loading images:" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="11I-Is-Vyn">
+                                        <rect key="frame" x="0.0" y="0.0" width="125" height="21"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                        <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                    <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" style="gray" translatesAutoresizingMaskIntoConstraints="NO" id="X1G-gi-fIs">
+                                        <rect key="frame" x="127" y="0.0" width="20" height="20"/>
+                                    </activityIndicatorView>
+                                </subviews>
+                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                <constraints>
+                                    <constraint firstItem="11I-Is-Vyn" firstAttribute="top" secondItem="taF-gg-jag" secondAttribute="top" id="CoA-mC-YPw"/>
+                                    <constraint firstAttribute="trailing" secondItem="X1G-gi-fIs" secondAttribute="trailing" id="FOk-Rb-49y"/>
+                                    <constraint firstAttribute="bottom" secondItem="11I-Is-Vyn" secondAttribute="bottom" id="GgK-0g-Aln"/>
+                                    <constraint firstItem="11I-Is-Vyn" firstAttribute="leading" secondItem="taF-gg-jag" secondAttribute="leading" id="WEW-Zo-775"/>
+                                    <constraint firstItem="X1G-gi-fIs" firstAttribute="top" secondItem="taF-gg-jag" secondAttribute="top" id="eft-a3-gOx"/>
+                                    <constraint firstItem="X1G-gi-fIs" firstAttribute="leading" secondItem="11I-Is-Vyn" secondAttribute="trailing" constant="2" id="pYA-Vr-ZRt"/>
+                                </constraints>
+                            </view>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                         <constraints>
+                            <constraint firstItem="taF-gg-jag" firstAttribute="top" secondItem="TaU-qp-QzN" secondAttribute="bottom" constant="8" id="1YW-RT-Ftz"/>
                             <constraint firstAttribute="trailing" secondItem="Jyk-Zt-Kjk" secondAttribute="trailing" id="28N-uq-NeE"/>
                             <constraint firstItem="wfy-db-euE" firstAttribute="top" secondItem="8mQ-DV-RBg" secondAttribute="bottom" constant="8" id="4FD-hz-YQb"/>
                             <constraint firstItem="8mQ-DV-RBg" firstAttribute="top" secondItem="1Dy-gm-5py" secondAttribute="bottom" constant="8" id="GSH-Bw-vDi"/>
@@ -66,12 +93,15 @@
                             <constraint firstAttribute="trailing" secondItem="TaU-qp-QzN" secondAttribute="trailing" id="bcw-IS-fMd"/>
                             <constraint firstItem="wfy-db-euE" firstAttribute="top" secondItem="Jyk-Zt-Kjk" secondAttribute="bottom" id="jWB-86-v6J"/>
                             <constraint firstItem="TaU-qp-QzN" firstAttribute="top" secondItem="y3c-jy-aDJ" secondAttribute="bottom" id="mug-1q-VEo"/>
+                            <constraint firstItem="taF-gg-jag" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="qpF-bO-7Xe"/>
                             <constraint firstAttribute="trailing" secondItem="8mQ-DV-RBg" secondAttribute="trailing" constant="20" id="tbw-fo-idR"/>
                             <constraint firstItem="1Dy-gm-5py" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leading" constant="20" id="x2j-P1-xup"/>
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" id="SzO-IR-lP1"/>
                     <connections>
+                        <outlet property="activityIndicator" destination="X1G-gi-fIs" id="QBA-ZO-BaD"/>
+                        <outlet property="loadingView" destination="taF-gg-jag" id="ASY-au-CTJ"/>
                         <outlet property="mapView" destination="Jyk-Zt-Kjk" id="SsK-lk-V0e"/>
                         <outlet property="radiusLabel" destination="1Dy-gm-5py" id="C1F-Rs-u4F"/>
                         <outlet property="radiusSlider" destination="8mQ-DV-RBg" id="1tp-cE-vd2"/>
@@ -113,6 +143,9 @@
                                     <constraint firstItem="HLO-JU-74V" firstAttribute="leading" secondItem="KNR-Hm-yl1" secondAttribute="leading" constant="-5" id="hGk-hZ-KQb"/>
                                     <constraint firstItem="HLO-JU-74V" firstAttribute="centerY" secondItem="KNR-Hm-yl1" secondAttribute="centerY" id="oRC-Ti-dl8"/>
                                 </constraints>
+                                <connections>
+                                    <outlet property="delegate" destination="ge4-RX-1LB" id="5nC-aW-qbv"/>
+                                </connections>
                             </scrollView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
@@ -123,6 +156,9 @@
                             <constraint firstItem="KNR-Hm-yl1" firstAttribute="top" secondItem="yLl-Zr-Gyy" secondAttribute="bottom" id="bR3-bO-9Ip"/>
                         </constraints>
                     </view>
+                    <connections>
+                        <outlet property="imageView" destination="HLO-JU-74V" id="lXh-Lu-W56"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="cSQ-gJ-ZWi" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>

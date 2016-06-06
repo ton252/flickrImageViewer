@@ -9,6 +9,7 @@
         <scene sceneID="Xga-xb-nhn">
             <objects>
                 <navigationController id="bP7-Yg-kuT" sceneMemberID="viewController">
+                    <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina4"/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="rzR-DY-Ck2">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
@@ -19,7 +20,7 @@
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dfq-R6-j8r" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-385" y="429"/>
+            <point key="canvasLocation" x="-112" y="429"/>
         </scene>
         <!--Map View Controller-->
         <scene sceneID="tne-QT-ifu">
@@ -30,11 +31,11 @@
                         <viewControllerLayoutGuide type="bottom" id="wfy-db-euE"/>
                     </layoutGuides>
                     <view key="view" contentMode="scaleToFill" id="8bC-Xf-vdC">
-                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <searchBar contentMode="redraw" text="" placeholder="Enter image tag here" showsCancelButton="YES" translatesAutoresizingMaskIntoConstraints="NO" id="TaU-qp-QzN">
-                                <rect key="frame" x="0.0" y="64" width="600" height="44"/>
+                                <rect key="frame" x="0.0" y="64" width="320" height="44"/>
                                 <textInputTraits key="textInputTraits"/>
                                 <scopeButtonTitles>
                                     <string>Title</string>
@@ -42,22 +43,22 @@
                                 </scopeButtonTitles>
                             </searchBar>
                             <mapView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" mapType="standard" translatesAutoresizingMaskIntoConstraints="NO" id="Jyk-Zt-Kjk">
-                                <rect key="frame" x="0.0" y="108" width="600" height="492"/>
+                                <rect key="frame" x="0.0" y="108" width="320" height="460"/>
                             </mapView>
-                            <slider opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" value="32000" minValue="200" maxValue="32000" translatesAutoresizingMaskIntoConstraints="NO" id="8mQ-DV-RBg">
-                                <rect key="frame" x="18" y="562" width="564" height="31"/>
+                            <slider opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" value="200" minValue="200" maxValue="32000" translatesAutoresizingMaskIntoConstraints="NO" id="8mQ-DV-RBg">
+                                <rect key="frame" x="18" y="530" width="284" height="31"/>
                                 <connections>
                                     <action selector="setSliderValueAction:" destination="BYZ-38-t0r" eventType="valueChanged" id="ORs-Sw-1N5"/>
                                 </connections>
                             </slider>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Search radius:" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="1Dy-gm-5py">
-                                <rect key="frame" x="20" y="533" width="110" height="21"/>
+                                <rect key="frame" x="20" y="501" width="110" height="21"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                 <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <view hidden="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="taF-gg-jag">
-                                <rect key="frame" x="227" y="116" width="147" height="21"/>
+                                <rect key="frame" x="87" y="116" width="147" height="21"/>
                                 <subviews>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Loading images:" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="11I-Is-Vyn">
                                         <rect key="frame" x="0.0" y="0.0" width="125" height="21"/>
@@ -99,6 +100,7 @@
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" id="SzO-IR-lP1"/>
+                    <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina4"/>
                     <connections>
                         <outlet property="activityIndicator" destination="X1G-gi-fIs" id="QBA-ZO-BaD"/>
                         <outlet property="loadingView" destination="taF-gg-jag" id="ASY-au-CTJ"/>
@@ -113,56 +115,57 @@
             <point key="canvasLocation" x="285" y="429"/>
         </scene>
         <!--Image View Controller-->
-        <scene sceneID="i1h-Rh-3fp">
+        <scene sceneID="sKJ-Md-o7E">
             <objects>
-                <viewController storyboardIdentifier="APImageViewController" useStoryboardIdentifierAsRestorationIdentifier="YES" id="ge4-RX-1LB" customClass="APImageViewController" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="APImageViewController" useStoryboardIdentifierAsRestorationIdentifier="YES" id="z8O-t8-9t4" customClass="APImageViewController" sceneMemberID="viewController">
                     <layoutGuides>
-                        <viewControllerLayoutGuide type="top" id="yLl-Zr-Gyy"/>
-                        <viewControllerLayoutGuide type="bottom" id="93j-r1-eYy"/>
+                        <viewControllerLayoutGuide type="top" id="WRf-XC-SJ3"/>
+                        <viewControllerLayoutGuide type="bottom" id="R0c-Ck-b2N"/>
                     </layoutGuides>
-                    <view key="view" contentMode="scaleToFill" id="2QL-3G-LSQ">
-                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                    <view key="view" contentMode="scaleToFill" id="IPf-7Z-fv9">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" maximumZoomScale="5" translatesAutoresizingMaskIntoConstraints="NO" id="KNR-Hm-yl1">
-                                <rect key="frame" x="0.0" y="20" width="600" height="580"/>
+                            <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" maximumZoomScale="6" translatesAutoresizingMaskIntoConstraints="NO" id="b0G-eF-uwf">
+                                <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                                 <subviews>
-                                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="HLO-JU-74V">
-                                        <rect key="frame" x="-5" y="0.0" width="605" height="580"/>
-                                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
-                                        <constraints>
-                                            <constraint firstAttribute="width" constant="605" id="6g6-JF-wo6"/>
-                                        </constraints>
+                                    <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="pin" translatesAutoresizingMaskIntoConstraints="NO" id="PFV-sL-v2U">
+                                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                                     </imageView>
                                 </subviews>
                                 <color key="backgroundColor" red="0.10980392160000001" green="0.10980392160000001" blue="0.12941176469999999" alpha="1" colorSpace="calibratedRGB"/>
                                 <constraints>
-                                    <constraint firstAttribute="bottom" secondItem="HLO-JU-74V" secondAttribute="bottom" id="4LD-fx-cA9"/>
-                                    <constraint firstAttribute="trailing" secondItem="HLO-JU-74V" secondAttribute="trailing" id="YA9-0O-vy4"/>
-                                    <constraint firstItem="HLO-JU-74V" firstAttribute="top" secondItem="KNR-Hm-yl1" secondAttribute="top" id="ZDI-UQ-wBK"/>
-                                    <constraint firstItem="HLO-JU-74V" firstAttribute="leading" secondItem="KNR-Hm-yl1" secondAttribute="leading" constant="-5" id="hGk-hZ-KQb"/>
-                                    <constraint firstItem="HLO-JU-74V" firstAttribute="centerY" secondItem="KNR-Hm-yl1" secondAttribute="centerY" id="oRC-Ti-dl8"/>
+                                    <constraint firstItem="PFV-sL-v2U" firstAttribute="centerY" secondItem="b0G-eF-uwf" secondAttribute="centerY" id="23w-0h-27C"/>
+                                    <constraint firstItem="PFV-sL-v2U" firstAttribute="leading" secondItem="b0G-eF-uwf" secondAttribute="leading" id="B4h-JQ-KkY"/>
+                                    <constraint firstItem="PFV-sL-v2U" firstAttribute="centerX" secondItem="b0G-eF-uwf" secondAttribute="centerX" id="fDh-9d-m4T"/>
+                                    <constraint firstAttribute="trailing" secondItem="PFV-sL-v2U" secondAttribute="trailing" id="qS5-gq-cKP"/>
+                                    <constraint firstItem="PFV-sL-v2U" firstAttribute="top" secondItem="b0G-eF-uwf" secondAttribute="top" id="rSX-oF-yVV"/>
+                                    <constraint firstAttribute="bottom" secondItem="PFV-sL-v2U" secondAttribute="bottom" id="tnc-k1-rby"/>
                                 </constraints>
                                 <connections>
-                                    <outlet property="delegate" destination="ge4-RX-1LB" id="5nC-aW-qbv"/>
+                                    <outlet property="delegate" destination="z8O-t8-9t4" id="lcz-6J-09T"/>
                                 </connections>
                             </scrollView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
-                            <constraint firstAttribute="trailing" secondItem="KNR-Hm-yl1" secondAttribute="trailing" id="Cry-5U-jQa"/>
-                            <constraint firstItem="KNR-Hm-yl1" firstAttribute="bottom" secondItem="93j-r1-eYy" secondAttribute="top" id="Wdx-tf-hbj"/>
-                            <constraint firstItem="KNR-Hm-yl1" firstAttribute="leading" secondItem="2QL-3G-LSQ" secondAttribute="leading" id="XJn-78-iwS"/>
-                            <constraint firstItem="KNR-Hm-yl1" firstAttribute="top" secondItem="yLl-Zr-Gyy" secondAttribute="bottom" id="bR3-bO-9Ip"/>
+                            <constraint firstItem="b0G-eF-uwf" firstAttribute="top" secondItem="IPf-7Z-fv9" secondAttribute="top" id="Bug-mF-Jcd"/>
+                            <constraint firstItem="b0G-eF-uwf" firstAttribute="bottom" secondItem="R0c-Ck-b2N" secondAttribute="top" id="NGN-AX-f0h"/>
+                            <constraint firstAttribute="trailing" secondItem="b0G-eF-uwf" secondAttribute="trailing" id="lLp-hp-qfH"/>
+                            <constraint firstItem="b0G-eF-uwf" firstAttribute="leading" secondItem="IPf-7Z-fv9" secondAttribute="leading" id="lri-tX-1S7"/>
                         </constraints>
                     </view>
+                    <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina4"/>
                     <connections>
-                        <outlet property="imageView" destination="HLO-JU-74V" id="lXh-Lu-W56"/>
+                        <outlet property="imageView" destination="PFV-sL-v2U" id="PV2-tg-2mh"/>
                     </connections>
                 </viewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="cSQ-gJ-ZWi" userLabel="First Responder" sceneMemberID="firstResponder"/>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="KX8-Hu-6ty" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="951" y="429"/>
+            <point key="canvasLocation" x="699" y="429"/>
         </scene>
     </scenes>
+    <resources>
+        <image name="pin" width="364" height="408"/>
+    </resources>
 </document>

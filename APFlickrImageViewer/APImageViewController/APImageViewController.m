@@ -7,6 +7,8 @@
 //
 
 #import "APImageViewController.h"
+#import "APImage+CoreDataProperties.h"
+#import "APModelManager.h"
 
 @interface APImageViewController ()
 
@@ -18,16 +20,29 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    [self loadImage];
     [self.navigationController setNavigationBarHidden:NO animated:NO];
 }
 
-- (UIView *)viewForZoomingInScrollView:(UIScrollView *)scrollView{
-    return self.imageView;
+-(void)loadImage {
+    APImage *imageModel = [[APModelManager defaultManager] getAPImageWithID:self.imageIdentifier];
+    
+    if (imageModel){
+        UIImage *image = [UIImage imageWithData:imageModel.data];
+        [self.imageView setImage:image];
+        [self setTitle:imageModel.title];
+    }
 }
 
 -(void) viewWillDisappear:(BOOL)animated {
     [self.navigationController setNavigationBarHidden:YES animated:NO];
     [super viewWillDisappear:animated];
+}
+
+#pragma mark ScrollView delegate method
+
+- (UIView *)viewForZoomingInScrollView:(UIScrollView *)scrollView {
+    return self.imageView;
 }
 
 

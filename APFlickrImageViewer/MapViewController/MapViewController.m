@@ -9,8 +9,12 @@
 #import "MapViewController.h"
 #import <MapKit/MapKit.h>
 #import "APDownloadManager.h"
+#import "APImage+CoreDataProperties.h"
+#import "APPointAnnotation.h"
+#import "APModelManager.h"
+#import "APImageViewController.h"
 
-@interface MapViewController()<CLLocationManagerDelegate,MKMapViewDelegate,UISearchBarDelegate>
+@interface MapViewController()<CLLocationManagerDelegate, MKMapViewDelegate, UISearchBarDelegate, APDownloadManagerDelegate>
 
 @property (weak, nonatomic) IBOutlet UISearchBar *searchBar;
 @property (weak, nonatomic) IBOutlet UILabel *radiusLabel;
@@ -33,14 +37,15 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     [self defaultSettings];
-    [self setupLoactionManager];
-    
+    [self setupLocationManager];
+    [self restoreUserData];
 }
 
 - (void)defaultSettings{
     [self.navigationController setNavigationBarHidden:YES animated:NO];
     self.mapView.delegate = self;
     self.searchBar.delegate = self;
+    [[APDownloadManager sharedManager] setDelegate:self];
     UITapGestureRecognizer * tapGesture = [[UITapGestureRecognizer alloc]
                                            initWithTarget:self
                                            action:@selector(hideKeyBoard)];
@@ -49,7 +54,7 @@
     self.activityIndicator.hidesWhenStopped = YES;
     
     [self cancelButton:self.searchBar enable:YES];
-     self.radius = self.radiusSlider.maximumValue;
+
 
 }
 
@@ -58,7 +63,6 @@
 - (void)startLoading {
     [self.loadingView  setHidden:NO];
     [self.activityIndicator startAnimating];
-    self.radiusLabel.text = NSLocalizedString(@"Loading pictures: ", nil);
 }
 
 - (void)stopLoading {
@@ -67,21 +71,23 @@
     self.radius = self.radius;
 }
 
--(void)requestImages {
+- (void)requestImages {
+    [self startLoading];
     [[UIApplication sharedApplication] setNetworkActivityIndicatorVisible:YES];
     [[APDownloadManager sharedManager] downloadImagesWithTags:self.searchBar.text
                                                      location:self.mapView.userLocation.location.coordinate
                                                        radius:self.radius
                                                maxImagesCount:100
                                                       success:^(APImage *image, NSDictionary *info) {
+                                                          [self locatePoint:image];
                                                       }failure:nil
                                             completionHandler:^(NSArray *images){
                                                 dispatch_async(dispatch_get_main_queue(), ^{
                                                     [[UIApplication sharedApplication] setNetworkActivityIndicatorVisible:NO];
                                                     if (images.count == 0){
                                                         UIAlertView *alert =
-                                                        [[UIAlertView alloc] initWithTitle:@"Nothing found"
-                                                                                   message:@"Please, try to change tag or location"
+                                                        [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"Nothing found", nil)
+                                                                                   message:NSLocalizedString(@"Please, try to change tag or radius",nil)
                                                                                   delegate:self
                                                                          cancelButtonTitle:@"OK"
                                                                          otherButtonTitles:nil];
@@ -90,6 +96,50 @@
                                                 });
                                             }];
 }
+
+- (void)finishLoading{
+    [self saveUserLocation];
+    [self performSelectorOnMainThread:@selector(stopLoading) withObject:nil waitUntilDone:YES];
+}
+
+#pragma mark Managed data methods
+
+- (void)locatePoint:(APImage *) image {
+    
+    dispatch_async(dispatch_get_main_queue(), ^{
+    
+        APPointAnnotation *annotation = [[APPointAnnotation alloc] init];
+        CLLocationCoordinate2D location = CLLocationCoordinate2DMake(image.latitude.floatValue,image.longitude.floatValue);
+        [annotation setCoordinate:location];
+        
+        [annotation setTitle:image.title];
+        [annotation setTag:image.image_id.integerValue];
+        [self.mapView addAnnotation:annotation];
+        
+    });
+    
+}
+
+- (void)restoreUserData{
+    self.locationUpdated = NO;
+    __weak typeof(self) weakSelf = self;
+    [[APModelManager defaultManager] getAllImages:^(NSArray *images) {
+        dispatch_async(dispatch_get_main_queue(), ^{
+            if (images.count == 0){
+                //Default Settings
+                _radius = weakSelf.radiusSlider.maximumValue;
+            }else{
+                [weakSelf restoreUsertLocation];
+                for (APImage *image in images){
+                    [weakSelf locatePoint:image];
+                }
+                weakSelf.locationUpdated = YES;
+            }
+        });
+    }];
+    
+}
+
 
 #pragma mark Search bar methods
 
@@ -110,10 +160,19 @@
 - (void)searchBarCancelButtonClicked:(UISearchBar *)searchBar {
     [self stopLoading];
     [self removeUserInformation];
+    [searchBar setText:@""];
+    [[APDownloadManager sharedManager] cancelTasks];
+    [[APModelManager defaultManager] removeAllImages];
+    [self.mapView removeAnnotations:self.mapView.annotations];
     [searchBar resignFirstResponder];
     [self cancelButton:self.searchBar enable:YES];
 }
 
+- (BOOL)searchBar:(UISearchBar *)searchBar shouldChangeTextInRange:(NSRange)range replacementText:(NSString *)text {
+    if (range.length > text.length)
+        return YES;
+    return [self validateAlphabets:text];
+}
 
 - (void)searchBarSearchButtonClicked:(UISearchBar *)searchBar {
     searchBar.text = [self stripDoubleSpaceFrom:searchBar.text];
@@ -121,13 +180,7 @@
     if ([self validateAlphabets:searchBar.text] && ![searchBar.text isEqualToString:@" "]){
         [self requestImages];
     }else{
-        UIAlertView *alert =
-        [[UIAlertView alloc] initWithTitle:@"Input error"
-                                   message:@"Please, use just english letters."
-                                  delegate:self
-                         cancelButtonTitle:@"OK"
-                         otherButtonTitles:nil];
-        [alert show];
+        return;
     }
     
     [searchBar resignFirstResponder];
@@ -147,7 +200,7 @@
 }
 
 - (BOOL)validateAlphabets: (NSString *)alpha {
-    NSString *abnRegex = @"[A-Za-z123456789 ]+";
+    NSString *abnRegex = @"[A-Za-z1234567890 \n]+";
     NSPredicate *abnTest = [NSPredicate predicateWithFormat:@"SELF MATCHES %@", abnRegex];
     BOOL isValid = [abnTest evaluateWithObject:alpha];
     
@@ -159,6 +212,8 @@
 - (IBAction)setSliderValueAction:(UISlider *)sender {
     _radius = [self convertSliderValueToRadius];
     self.radiusLabel.text = [NSString stringWithFormat:NSLocalizedString(@"Search radius", nil),self.radius/1000.f];
+    self.locationUpdated = NO;
+    [self zoomToUserCoordinates:self.mapView.userLocation.coordinate radius:self.radius];
 }
 
 - (float)convertSliderValueToRadius {
@@ -184,7 +239,7 @@
 
 #pragma mark Location methods
 
-- (void)setupLoactionManager {
+- (void)setupLocationManager {
     self.locationManager = [[CLLocationManager alloc] init];
     self.locationManager.delegate = self;
     
@@ -199,7 +254,13 @@
     if (status == kCLAuthorizationStatusAuthorizedAlways || status == kCLAuthorizationStatusAuthorizedWhenInUse) {
         self.mapView.showsUserLocation = YES;
     }
-    else if (status == kCLAuthorizationStatusDenied) {
+    else {
+        [self enableActivateLocationMessage:status];
+    }
+}
+
+- (void)enableActivateLocationMessage:(CLAuthorizationStatus)status{
+    if (status == kCLAuthorizationStatusDenied) {
         NSString *title;
         title = (status == kCLAuthorizationStatusDenied) ? NSLocalizedString(@"Location services are off", nil)  : NSLocalizedString(@"Background location is not enabled",nil);
         NSString *message = NSLocalizedString(@"To use background location you must turn on 'Always' in the Location Services Settings",nil);
@@ -220,13 +281,19 @@
         // Send the user to the Settings for this app
         NSURL *settingsURL = [NSURL URLWithString:UIApplicationOpenSettingsURLString];
         [[UIApplication sharedApplication] openURL:settingsURL];
+    }else if (buttonIndex == 0){
+        CLAuthorizationStatus status = [CLLocationManager authorizationStatus];
+        [self enableActivateLocationMessage:status];
     }
 }
 
 #pragma mark Map view methods
 
 - (void)saveUserLocation {
-    NSDictionary *locationDict = @{@"userLocation": self.mapView.userLocation, @"radius": @(self.radius)};
+    CLLocationCoordinate2D coordinate = self.mapView.userLocation.location.coordinate;
+    NSDictionary *locationDict = @{@"latitude": @(coordinate.latitude),
+                                   @"longitude": @(coordinate.longitude),
+                                   @"radius":@(self.radius)};
     [[NSUserDefaults standardUserDefaults] setObject:locationDict forKey:@"lastUserLocation"];
     [[NSUserDefaults standardUserDefaults] synchronize];
 }
@@ -235,9 +302,11 @@
     NSDictionary *locationDict = [[NSUserDefaults standardUserDefaults] dictionaryForKey:@"lastUserLocation"];
     
     if (locationDict){
-        MKUserLocation *userLocation = [locationDict objectForKey:@"userLocation"];
+        CLLocationCoordinate2D coordinate;
+        coordinate.latitude = [[locationDict objectForKey:@"latitude"] doubleValue];
+        coordinate.longitude = [[locationDict objectForKey:@"longitude"] doubleValue];
         self.radius = [[locationDict objectForKey:@"radius"] floatValue];
-        [self zoomToUserCoordinates:userLocation.coordinate radius:self.radius];
+        [self zoomToUserCoordinates:coordinate radius:self.radius];
     }
 }
 
@@ -260,6 +329,41 @@
     [self.mapView setRegion:region animated:YES];
     
     self.locationUpdated = YES;
+}
+
+- (MKAnnotationView *)mapView:(MKMapView *)mapView viewForAnnotation:(id <MKAnnotation>)annotation {
+    
+    MKAnnotationView *userAnnotationView = nil;
+    if ([annotation isKindOfClass:MKPointAnnotation.class])
+    {
+        userAnnotationView = (MKPinAnnotationView *)[mapView dequeueReusableAnnotationViewWithIdentifier:@"UserLocation"];
+        if (userAnnotationView == nil)  {
+            userAnnotationView = [[MKPinAnnotationView alloc] initWithAnnotation:annotation reuseIdentifier:@"UserLocation"];
+        }
+        else
+            userAnnotationView.annotation = annotation;
+        
+        userAnnotationView.enabled = YES;
+        userAnnotationView.canShowCallout = YES;
+        
+        APPointAnnotation *userAnnotation = (APPointAnnotation *)userAnnotationView.annotation;
+        
+        UIButton *showPhotoButton = [UIButton buttonWithType:UIButtonTypeDetailDisclosure];
+        [showPhotoButton setTag:userAnnotation.tag];
+        [showPhotoButton addTarget:self action:@selector(showImage:) forControlEvents:UIControlEventTouchUpInside];
+        userAnnotationView.rightCalloutAccessoryView = showPhotoButton;
+        
+    }
+    
+    return userAnnotationView;
+}
+
+- (void)showImage:(UIButton *) sender{
+    
+    APImageViewController *viewController = [self.storyboard instantiateViewControllerWithIdentifier:@"APImageViewController"];
+    viewController.imageIdentifier = sender.tag;
+    [self.navigationController pushViewController: viewController animated:YES];
+    
 }
 
 

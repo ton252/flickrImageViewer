@@ -21,6 +21,10 @@
 		710584861D04B10B00324303 /* MapViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 710584851D04B10B00324303 /* MapViewController.m */; };
 		7105848A1D04B11600324303 /* APImageViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 710584891D04B11600324303 /* APImageViewController.m */; };
 		7105848E1D04B12B00324303 /* APDownloadManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 7105848D1D04B12B00324303 /* APDownloadManager.m */; };
+		711192171D05108700804732 /* APImage+CoreDataProperties.m in Sources */ = {isa = PBXBuildFile; fileRef = 711192111D05108600804732 /* APImage+CoreDataProperties.m */; };
+		711192181D05108700804732 /* APImage.m in Sources */ = {isa = PBXBuildFile; fileRef = 711192131D05108600804732 /* APImage.m */; };
+		711192191D05108700804732 /* APModelManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 711192161D05108600804732 /* APModelManager.m */; };
+		7111921E1D0510B600804732 /* APPointAnnotation.m in Sources */ = {isa = PBXBuildFile; fileRef = 7111921D1D0510B600804732 /* APPointAnnotation.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -69,6 +73,14 @@
 		710584891D04B11600324303 /* APImageViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = APImageViewController.m; sourceTree = "<group>"; };
 		7105848C1D04B12B00324303 /* APDownloadManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = APDownloadManager.h; sourceTree = "<group>"; };
 		7105848D1D04B12B00324303 /* APDownloadManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = APDownloadManager.m; sourceTree = "<group>"; };
+		711192101D05108600804732 /* APImage+CoreDataProperties.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "APImage+CoreDataProperties.h"; sourceTree = "<group>"; };
+		711192111D05108600804732 /* APImage+CoreDataProperties.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "APImage+CoreDataProperties.m"; sourceTree = "<group>"; };
+		711192121D05108600804732 /* APImage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = APImage.h; sourceTree = "<group>"; };
+		711192131D05108600804732 /* APImage.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = APImage.m; sourceTree = "<group>"; };
+		711192151D05108600804732 /* APModelManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = APModelManager.h; sourceTree = "<group>"; };
+		711192161D05108600804732 /* APModelManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = APModelManager.m; sourceTree = "<group>"; };
+		7111921C1D0510B600804732 /* APPointAnnotation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = APPointAnnotation.h; sourceTree = "<group>"; };
+		7111921D1D0510B600804732 /* APPointAnnotation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = APPointAnnotation.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -126,9 +138,12 @@
 			children = (
 				7105842E1D045AF400324303 /* AppDelegate.h */,
 				7105842F1D045AF400324303 /* AppDelegate.m */,
+				7111920F1D05108600804732 /* APImage */,
+				711192141D05108600804732 /* APModelManager */,
 				7105848B1D04B12B00324303 /* APDownloadManager */,
 				710584871D04B11600324303 /* APImageViewController */,
 				710584831D04B10B00324303 /* MapViewController */,
+				7111921A1D0510B600804732 /* Subclasses */,
 				710584341D045AF400324303 /* Main.storyboard */,
 				7105843A1D045AF400324303 /* Assets.xcassets */,
 				7105843C1D045AF400324303 /* LaunchScreen.storyboard */,
@@ -191,6 +206,43 @@
 				7105848D1D04B12B00324303 /* APDownloadManager.m */,
 			);
 			path = APDownloadManager;
+			sourceTree = "<group>";
+		};
+		7111920F1D05108600804732 /* APImage */ = {
+			isa = PBXGroup;
+			children = (
+				711192101D05108600804732 /* APImage+CoreDataProperties.h */,
+				711192111D05108600804732 /* APImage+CoreDataProperties.m */,
+				711192121D05108600804732 /* APImage.h */,
+				711192131D05108600804732 /* APImage.m */,
+			);
+			path = APImage;
+			sourceTree = "<group>";
+		};
+		711192141D05108600804732 /* APModelManager */ = {
+			isa = PBXGroup;
+			children = (
+				711192151D05108600804732 /* APModelManager.h */,
+				711192161D05108600804732 /* APModelManager.m */,
+			);
+			path = APModelManager;
+			sourceTree = "<group>";
+		};
+		7111921A1D0510B600804732 /* Subclasses */ = {
+			isa = PBXGroup;
+			children = (
+				7111921B1D0510B600804732 /* APPointAnnotation */,
+			);
+			path = Subclasses;
+			sourceTree = "<group>";
+		};
+		7111921B1D0510B600804732 /* APPointAnnotation */ = {
+			isa = PBXGroup;
+			children = (
+				7111921C1D0510B600804732 /* APPointAnnotation.h */,
+				7111921D1D0510B600804732 /* APPointAnnotation.m */,
+			);
+			path = APPointAnnotation;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -325,11 +377,15 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				711192181D05108700804732 /* APImage.m in Sources */,
 				710584301D045AF400324303 /* AppDelegate.m in Sources */,
 				7105848A1D04B11600324303 /* APImageViewController.m in Sources */,
+				711192191D05108700804732 /* APModelManager.m in Sources */,
 				710584391D045AF400324303 /* APFlickrImageViewer.xcdatamodeld in Sources */,
 				7105842D1D045AF400324303 /* main.m in Sources */,
 				7105848E1D04B12B00324303 /* APDownloadManager.m in Sources */,
+				711192171D05108700804732 /* APImage+CoreDataProperties.m in Sources */,
+				7111921E1D0510B600804732 /* APPointAnnotation.m in Sources */,
 				710584861D04B10B00324303 /* MapViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

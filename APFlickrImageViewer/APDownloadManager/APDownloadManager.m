@@ -6,7 +6,7 @@
 //  Copyright © 2016 ton252. All rights reserved.
 //
 #import "APDownloadManager.h"
-//#import "APModelManager.h"
+#import "APModelManager.h"
 
 #define MIN_RADIUS 0.f
 #define MAX_RADIUS 32000.f
@@ -49,7 +49,7 @@ NSString *const APDownloadManagerErrorDomain = @"APDownloadManagerErrorDomain";
 @interface APDownloadManager() <NSURLSessionDelegate>
 
 @property(strong,nonatomic) NSURLSession *session;
-@property(strong, nonatomic) NSMutableArray<NSURLSessionDownloadTask*> *downloadTasks;
+@property(strong, nonatomic) NSMutableArray<NSURLSessionTask*> *downloadTasks;
 
 @end
 
@@ -131,8 +131,8 @@ NSString *const APDownloadManagerErrorDomain = @"APDownloadManagerErrorDomain";
 
 - (NSURLSessionDataTask *)jsonDataTaskWithRequest:(NSURLRequest *)request
                                 completionHandler:(void (^)(NSDictionary *responseObject, NSError *error))completionHandler{
-    
-    NSURLSessionDataTask *dataTask =
+    __weak typeof(self)weakSelf = self;
+    __block NSURLSessionDataTask *dataTask =
     [self.session dataTaskWithRequest:request
                     completionHandler:^(NSData * _Nullable data, NSURLResponse * _Nullable response, NSError * _Nullable error) {
                         NSError *resultError = error;
@@ -150,7 +150,14 @@ NSString *const APDownloadManagerErrorDomain = @"APDownloadManagerErrorDomain";
                             error = [APDownloadManager errorForCode:-2];
                         }
                         if (completionHandler) completionHandler(responseObject,resultError);
+                        @synchronized (weakSelf) {
+                            [weakSelf.downloadTasks removeObject:dataTask];
+                            [weakSelf finishCheck];
+                        }
                     }];
+    @synchronized (self) {
+        [self.downloadTasks addObject:dataTask];
+    }
 
     return dataTask;
     
@@ -163,6 +170,7 @@ NSString *const APDownloadManagerErrorDomain = @"APDownloadManagerErrorDomain";
                        success:(void (^)(APImage *image, NSDictionary *info))success
                        failure:(void (^)(NSError *error, NSDictionary *info))failure
              completionHandler:(void (^)(NSArray *images))completionHandler{
+    
     
     [self getImagesWihTags:tags location:coordinates radius:radius
             maxImagesCount:imagesCount completionHandler:^(NSArray *imagesDict, NSError *error) {
@@ -178,8 +186,19 @@ NSString *const APDownloadManagerErrorDomain = @"APDownloadManagerErrorDomain";
                                  if (!error){
                                      [self downloadImage:imageInfo completionHandler:^(UIImage *image, NSDictionary *info, NSError *error) {
                                          if (!error){
-                                             
-#warning message Processing and Preservation of the received data
+                                              NSData *imageData = UIImageJPEGRepresentation(image,1.0);
+                                              APImage *imageModel =
+                                              [[APModelManager defaultManager] createAPImageFrom:info withData:imageData];
+                                              [[APModelManager defaultManager] rootSavingContext];
+ 
+                                              @synchronized (self) {
+                                                  if (imageModel) {
+                                                     [resultImages addObject:imageModel];
+                                                  }
+                                              }
+                                              
+                                             if (success) success(imageModel,imageInfo);
+                                            
                                          }else{
                                              if (failure) failure(error,info);
                                          }
@@ -271,11 +290,7 @@ NSString *const APDownloadManagerErrorDomain = @"APDownloadManagerErrorDomain";
                                          if (completionHandler) completionHandler(downloadedImage,imageInfo,error);
                                          @synchronized (weakSelf) {
                                              [weakSelf.downloadTasks removeObject:dataTask];
-                                             if (weakSelf.downloadTasks.count == 0){
-                                                 if ([weakSelf.delegate respondsToSelector:@selector(finishLoading)]){
-                                                    [weakSelf.delegate finishLoading];
-                                                 }
-                                             }
+                                             [weakSelf finishCheck];
                                          }
          }];
         @synchronized (self) {
@@ -290,6 +305,18 @@ NSString *const APDownloadManagerErrorDomain = @"APDownloadManagerErrorDomain";
     }
     
     return nil;
+}
+
+
+- (BOOL)finishCheck{
+    if (self.downloadTasks.count == 0){
+        NSLog(@"FINISH");
+        if ([self.delegate respondsToSelector:@selector(finishLoading)]){
+            [self.delegate finishLoading];
+        }
+        return YES;
+    }
+    return NO;
 }
 
 

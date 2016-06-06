@@ -1,0 +1,16 @@
+/* 
+  Localizable.strings
+  APFlickrImageViewer
+
+  Created by ton252 on 05.06.16.
+  Copyright © 2016 ton252. All rights reserved.
+*/
+
+"Search radius" = "Радиус поиска %.1f км";
+"Loading pictures: " = "Загрузка изображений: ";
+"Location services are off"  = "Геолокации отключена";
+"Background location is not enabled" = "Геолокация в фоновом режиме недоступна";
+"To use background location you must turn on 'Always' in the Location Services Settings" = "Для использования геолокации в фоновом режиме включите 'Всегда' в настройках геолокации";
+
+"Nothing found" = "Ничего не найдено";
+"Please, try to change tag or radius" = "Пожалуйста, попробуйте изменить тег или радиус поиска";

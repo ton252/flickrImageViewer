@@ -189,7 +189,6 @@ NSString *const APDownloadManagerErrorDomain = @"APDownloadManagerErrorDomain";
                                               NSData *imageData = UIImageJPEGRepresentation(image,1.0);
                                               APImage *imageModel =
                                               [[APModelManager defaultManager] createAPImageFrom:info withData:imageData];
-                                              [[APModelManager defaultManager] rootSavingContext];
  
                                               @synchronized (self) {
                                                   if (imageModel) {

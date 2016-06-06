@@ -54,7 +54,7 @@
         image.server = server;
         image.data = data;
         
-        [[APModelManager defaultManager] saveRootContext];
+        [[[APModelManager defaultManager] rootSavingContext] save:nil];
         
         return image;
     }

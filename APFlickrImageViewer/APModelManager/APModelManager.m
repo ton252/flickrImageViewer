@@ -93,32 +93,32 @@
     return image;
 }
 
-- (void)getAllImages:(void (^)(NSArray *images)) complitionBlock{
+- (void)getAPImageWithID:(NSInteger) imageID completition:(void (^)(APImage *)) completitionBlock {
+    __weak typeof(self) weakSelf = self;
+    [self.rootSavingContext performBlock:^{
+        APImage *image = [weakSelf getAPImageWithID:imageID];
+        completitionBlock(image);
+    }];
+}
+
+- (void)getAllImages:(void (^)(NSArray *images)) completition{
     __weak typeof(self) weakSelf = self;
     [self.rootSavingContext performBlock:^{
             NSFetchRequest *request = [[NSFetchRequest alloc]initWithEntityName:@"APImage"];
             NSArray *images  = [weakSelf.rootSavingContext executeFetchRequest:request error:nil];
-            complitionBlock(images);
+            completition(images);
     }];
-
-    //return [self.rootSavingContext executeFetchRequest:request error:nil];
 }
 
 
 - (void)removeAllImages {
-    
+    __weak typeof(self) weakSelf = self;
     [self getAllImages:^(NSArray *images) {
         for (APImage *image in images){
-            [self.rootSavingContext deleteObject:image];
+            [weakSelf.rootSavingContext deleteObject:image];
+            [weakSelf saveRootContext];
         }
     }];
-    
-//    NSArray *images = [self getAllImages];
-//    for (APImage *image in images){
-//        [self.rootSavingContext performBlock:^{
-//            [self.rootSavingContext deleteObject:image];
-//        }];
-//    }
     
 }
 

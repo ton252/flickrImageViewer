@@ -25,7 +25,8 @@
 - (APImage *)getAPImageInContextWithID:(NSInteger) imageID;
 - (APImage *)getAPImageWithID:(NSInteger) imageID;
 
-- (void)getAllImages:(void (^)(NSArray * images)) complitionBlock;
+- (void)getAPImageWithID:(NSInteger) imageID completition:(void (^)(APImage *)) completitionBlock;
+- (void)getAllImages:(void (^)(NSArray * images)) completitionBlock;
 - (void)removeAllImages;
 
 

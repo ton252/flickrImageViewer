@@ -12,3 +12,6 @@
 "Location services are off"  = "Location services are off";
 "Background location is not enabled" = "Background location is not enabled";
 "To use background location you must turn on 'Always' in the Location Services Settings" = "To use background location you must turn on 'Always' in the Location Services Settings";
+
+"Nothing found" = "Nothing found";
+"Please, try to change tag or radius" = "Please, try to change tag or radius";

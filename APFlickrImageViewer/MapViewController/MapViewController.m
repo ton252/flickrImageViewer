@@ -43,8 +43,14 @@
 
 - (void)defaultSettings{
     [self.navigationController setNavigationBarHidden:YES animated:NO];
+    
+    if ([self.navigationController respondsToSelector:@selector(interactivePopGestureRecognizer)]) {
+        self.navigationController.interactivePopGestureRecognizer.enabled = NO;
+    }
+    
     self.mapView.delegate = self;
     self.searchBar.delegate = self;
+    
     [[APDownloadManager sharedManager] setDelegate:self];
     UITapGestureRecognizer * tapGesture = [[UITapGestureRecognizer alloc]
                                            initWithTarget:self
@@ -54,18 +60,22 @@
     self.activityIndicator.hidesWhenStopped = YES;
     
     [self cancelButton:self.searchBar enable:YES];
-
-
 }
 
 #pragma mark Networking
 
 - (void)startLoading {
+    self.mapView.userInteractionEnabled = NO;
+    self.searchBar.userInteractionEnabled = NO;
+    self.radiusSlider.userInteractionEnabled = NO;
     [self.loadingView  setHidden:NO];
     [self.activityIndicator startAnimating];
 }
 
 - (void)stopLoading {
+    self.mapView.userInteractionEnabled = YES;
+    self.searchBar.userInteractionEnabled = YES;
+    self.radiusSlider.userInteractionEnabled = YES;
     [self.loadingView  setHidden:YES];
     [self.activityIndicator stopAnimating];
     self.radius = self.radius;
@@ -127,7 +137,7 @@
         dispatch_async(dispatch_get_main_queue(), ^{
             if (images.count == 0){
                 //Default Settings
-                _radius = weakSelf.radiusSlider.maximumValue;
+                weakSelf.radius = weakSelf.radiusSlider.maximumValue;
             }else{
                 [weakSelf restoreUsertLocation];
                 for (APImage *image in images){
@@ -160,9 +170,9 @@
 - (void)searchBarCancelButtonClicked:(UISearchBar *)searchBar {
     [self stopLoading];
     [self removeUserInformation];
-    [searchBar setText:@""];
     [[APDownloadManager sharedManager] cancelTasks];
     [[APModelManager defaultManager] removeAllImages];
+    [searchBar setText:@""];
     [self.mapView removeAnnotations:self.mapView.annotations];
     [searchBar resignFirstResponder];
     [self cancelButton:self.searchBar enable:YES];
@@ -233,7 +243,7 @@
 - (void)setRadius:(float)radius {
     _radius = radius;
     self.radiusLabel.text = [NSString stringWithFormat:NSLocalizedString(@"Search radius", nil),radius/1000.f];
-    self.radiusSlider.value = radius;
+    self.radiusSlider.value = [self convertRadiusToSliderValue];
 }
 
 
@@ -247,7 +257,7 @@
         [self.locationManager requestWhenInUseAuthorization];
     }
     [self.locationManager startUpdatingLocation];
-    [self.locationManager requestAlwaysAuthorization];
+    //[self.locationManager requestAlwaysAuthorization];
 }
 
 - (void)locationManager:(CLLocationManager *)manager didChangeAuthorizationStatus:(CLAuthorizationStatus)status {
@@ -323,6 +333,8 @@
     if (self.isLocationUpdated)
         return;
     
+    NSLog(@"(%f %f) r = %f", coordinates.latitude,coordinates.longitude,radius);
+    
     MKCoordinateRegion region;
     region = MKCoordinateRegionMakeWithDistance(coordinates, radius, radius);
     region = [self.mapView regionThatFits:region];
@@ -358,7 +370,7 @@
     return userAnnotationView;
 }
 
-- (void)showImage:(UIButton *) sender{
+- (IBAction)showImage:(UIButton *) sender{
     
     APImageViewController *viewController = [self.storyboard instantiateViewControllerWithIdentifier:@"APImageViewController"];
     viewController.imageIdentifier = sender.tag;

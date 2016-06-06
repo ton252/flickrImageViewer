@@ -1,12 +1,12 @@
 
 /* Class = "UILabel"; text = "Loading images:"; ObjectID = "11I-Is-Vyn"; */
-"11I-Is-Vyn.text" = "Загрузка изображений:";
+"11I-Is-Vyn.text" = "Loading images:";
 
 /* Class = "UILabel"; text = "Search radius:"; ObjectID = "1Dy-gm-5py"; */
-"1Dy-gm-5py.text" = "Радиус поиска:";
+"1Dy-gm-5py.text" = "Search radius:";
 
 /* Class = "UISearchBar"; placeholder = "Enter image tag here"; ObjectID = "TaU-qp-QzN"; */
-"TaU-qp-QzN.placeholder" = "Введите тег изображения";
+"TaU-qp-QzN.placeholder" = "Enter image tag here";
 
 /* Class = "UISearchBar"; TaU-qp-QzN.scopeButtonTitles[0] = "Title"; ObjectID = "TaU-qp-QzN"; */
 "TaU-qp-QzN.scopeButtonTitles[0]" = "Title";

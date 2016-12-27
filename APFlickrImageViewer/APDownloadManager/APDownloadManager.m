@@ -89,22 +89,22 @@ NSString *const APDownloadManagerErrorDomain = @"APDownloadManagerErrorDomain";
                                     radius:(CLLocationDistance) radius
                             maxImagesCount:(NSInteger) imagesCount
                          completionHandler:(void (^)(NSArray *imagesDict, NSError *error))completionHandler {
-
+    
     NSString *radiusStr = @(VALUE_BORDER(radius/1000.f,MIN_RADIUS,MAX_RADIUS)).stringValue;
     NSString * tagsStr = [tags stringByReplacingOccurrencesOfString:@" " withString:@","];
     imagesCount = MAX(1,imagesCount);
     
     NSDictionary *parameters = @{FlickrMETHOD_KEY: FlickrMETHOD_IMAGESEARCH,
-                                FilckrKEY_API_KEY: FlickrAPIKey,
-                                   FilckrKEY_TAGS: tagsStr,
-                                    FilckrKEY_LAT: @(coordinates.latitude).stringValue,
-                                    FilckrKEY_LON: @(coordinates.longitude).stringValue,
+                                 FilckrKEY_API_KEY: FlickrAPIKey,
+                                 FilckrKEY_TAGS: tagsStr,
+                                 FilckrKEY_LAT: @(coordinates.latitude).stringValue,
+                                 FilckrKEY_LON: @(coordinates.longitude).stringValue,
                                  FilckrKEY_RADIUS: radiusStr,
-                                FilckrKEY_PERPAGE: @(imagesCount),
-                          FilckrKEY_PRIVACYFILTER: @"1",
+                                 FilckrKEY_PERPAGE: @(imagesCount),
+                                 FilckrKEY_PRIVACYFILTER: @"1",
                                  FilckrKEY_FORMAT: @"json",
-                            FilckrKEY_JSONCALLBAK: @"1"};
-
+                                 FilckrKEY_JSONCALLBAK: @"1"};
+    
     NSURL *requestURL = [NSURL URLWithString:[self createURL:FlickrREST withParameters:parameters]];
     NSMutableURLRequest *request = [[NSMutableURLRequest alloc] initWithURL:requestURL];
     [request setHTTPMethod:@"GET"];
@@ -158,7 +158,7 @@ NSString *const APDownloadManagerErrorDomain = @"APDownloadManagerErrorDomain";
     @synchronized (self) {
         [self.downloadTasks addObject:dataTask];
     }
-
+    
     return dataTask;
     
 }
@@ -186,31 +186,32 @@ NSString *const APDownloadManagerErrorDomain = @"APDownloadManagerErrorDomain";
                                  if (!error){
                                      [self downloadImage:imageInfo completionHandler:^(UIImage *image, NSDictionary *info, NSError *error) {
                                          if (!error){
-                                              NSData *imageData = UIImageJPEGRepresentation(image,1.0);
-                                              APImage *imageModel =
-                                              [[APModelManager defaultManager] createAPImageFrom:info withData:imageData];
- 
-                                              @synchronized (self) {
-                                                  if (imageModel) {
+                                             NSData *imageData = UIImageJPEGRepresentation(image,1.0);
+                                             APImage *imageModel =
+                                             [[APModelManager defaultManager] createAPImageFrom:info withData:imageData];
+                                             
+                                             @synchronized (self) {
+                                                 if (imageModel) {
                                                      [resultImages addObject:imageModel];
-                                                  }
-                                              }
-                                              
+                                                 }
+                                             }
+                                             
                                              if (success) success(imageModel,imageInfo);
-                                            
+                                             
                                          }else{
                                              if (failure) failure(error,info);
                                          }
-                                        dispatch_group_leave(downloadGroup);
+                                         dispatch_group_leave(downloadGroup);
                                      }];
                                  }else{
                                      if (failure) failure(error,nil);
                                      dispatch_group_leave(downloadGroup);
                                  }
-                         }];
+                             }];
                     }
                     
                     dispatch_group_notify(downloadGroup, dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_HIGH, 0), ^{
+                        [[APModelManager defaultManager] saveRootContext];
                         if (completionHandler) completionHandler([NSArray arrayWithArray:resultImages]);
                     });
                     
@@ -218,7 +219,7 @@ NSString *const APDownloadManagerErrorDomain = @"APDownloadManagerErrorDomain";
                     if (failure) failure(error,nil);
                     if (completionHandler) completionHandler(nil);
                 }
-    }];
+            }];
     
     
     
@@ -230,11 +231,11 @@ NSString *const APDownloadManagerErrorDomain = @"APDownloadManagerErrorDomain";
     NSString *ID = [imageInfo objectForKey:FilckrKEY_ID];
     if (ID){
         NSDictionary *parameters = @{FlickrMETHOD_KEY: FlickrMETHOD_GETLOCATION,
-                                    FilckrKEY_API_KEY: FlickrAPIKey,
-                                    FilckrKEY_PHOTOID: ID,
+                                     FilckrKEY_API_KEY: FlickrAPIKey,
+                                     FilckrKEY_PHOTOID: ID,
                                      FilckrKEY_FORMAT: @"json" ,
-                                FilckrKEY_JSONCALLBAK: @"1"};
-
+                                     FilckrKEY_JSONCALLBAK: @"1"};
+        
         NSURL *requestURL = [NSURL URLWithString:[self createURL:FlickrREST withParameters:parameters]];
         NSMutableURLRequest *request = [[NSMutableURLRequest alloc] initWithURL:requestURL];
         [request setHTTPMethod:@"GET"];
@@ -247,14 +248,14 @@ NSString *const APDownloadManagerErrorDomain = @"APDownloadManagerErrorDomain";
                 NSDictionary *imageDict = [[responseObject objectForKey:FilckrKEY_PHOTO] objectForKey:FilckrKEY_LOCATION];
                 NSString *latittude = [imageDict objectForKey:FilckrKEY_LATITUDE];
                 NSString *longitude = [imageDict objectForKey:FilckrKEY_LONGITUDE];
-                    if (latittude && longitude){
-                        NSMutableDictionary *tmpDict = [[NSMutableDictionary alloc] initWithDictionary:imageInfo];
-                        [tmpDict setValue:latittude forKey:FilckrKEY_LATITUDE];
-                        [tmpDict setValue:longitude forKey:FilckrKEY_LONGITUDE];
-                        resultImageDict = [NSDictionary dictionaryWithDictionary:tmpDict];
-                    }else{
-                        resultError = [APDownloadManager errorForCode:0];
-                    }
+                if (latittude && longitude){
+                    NSMutableDictionary *tmpDict = [[NSMutableDictionary alloc] initWithDictionary:imageInfo];
+                    [tmpDict setValue:latittude forKey:FilckrKEY_LATITUDE];
+                    [tmpDict setValue:longitude forKey:FilckrKEY_LONGITUDE];
+                    resultImageDict = [NSDictionary dictionaryWithDictionary:tmpDict];
+                }else{
+                    resultError = [APDownloadManager errorForCode:0];
+                }
             }
             completionHandler(resultImageDict,resultError);
         }];
@@ -271,7 +272,7 @@ NSString *const APDownloadManagerErrorDomain = @"APDownloadManagerErrorDomain";
 
 
 - (NSURLSessionDownloadTask *)downloadImage:(NSDictionary *) imageInfo
-                              completionHandler:(void (^)(UIImage *image, NSDictionary *info, NSError *error))completionHandler{
+                          completionHandler:(void (^)(UIImage *image, NSDictionary *info, NSError *error))completionHandler{
     
     
     NSString *farmID = [imageInfo objectForKey:FilckrKEY_FARMID];
@@ -285,17 +286,17 @@ NSString *const APDownloadManagerErrorDomain = @"APDownloadManagerErrorDomain";
         __block NSURLSessionDownloadTask *dataTask =
         [self.session downloadTaskWithURL:[NSURL URLWithString:imgUrl]
                         completionHandler:^(NSURL *location, NSURLResponse *response, NSError *error) {
-                                         UIImage *downloadedImage = [UIImage imageWithData:[NSData dataWithContentsOfURL:location]];
-                                         if (completionHandler) completionHandler(downloadedImage,imageInfo,error);
-                                         @synchronized (weakSelf) {
-                                             [weakSelf.downloadTasks removeObject:dataTask];
-                                             [weakSelf finishCheck];
-                                         }
-         }];
+                            UIImage *downloadedImage = [UIImage imageWithData:[NSData dataWithContentsOfURL:location]];
+                            if (completionHandler) completionHandler(downloadedImage,imageInfo,error);
+                            @synchronized (weakSelf) {
+                                [weakSelf.downloadTasks removeObject:dataTask];
+                                [weakSelf finishCheck];
+                            }
+                        }];
         @synchronized (self) {
             [self.downloadTasks addObject:dataTask];
         }
-
+        
         [dataTask resume];
         return dataTask;
     } else{
@@ -311,6 +312,7 @@ NSString *const APDownloadManagerErrorDomain = @"APDownloadManagerErrorDomain";
     if (self.downloadTasks.count == 0){
         NSLog(@"FINISH");
         if ([self.delegate respondsToSelector:@selector(finishLoading)]){
+            
             [self.delegate finishLoading];
         }
         return YES;
@@ -324,7 +326,7 @@ NSString *const APDownloadManagerErrorDomain = @"APDownloadManagerErrorDomain";
     NSDictionary *photosDict = [parameters objectForKey:FilckrKEY_PHOTOS];
     
     if (photosDict) {
-    
+        
         NSArray *array = [photosDict objectForKey:FilckrKEY_PHOTO];
         
         if (array) {

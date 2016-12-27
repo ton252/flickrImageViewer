@@ -54,8 +54,6 @@
         image.server = server;
         image.data = data;
         
-        [[[APModelManager defaultManager] rootSavingContext] save:nil];
-        
         return image;
     }
     
@@ -64,13 +62,13 @@
 
 - (APImage *)getAPImageWithID:(NSInteger) imageID {
     NSString *idSTR = [NSString stringWithFormat: @"%ld", (long)imageID];
-
+    
     return [self getAPImageWithAtribute:@"image_id" value:idSTR];
 }
 
 - (APImage *)getAPImageInContextWithID:(NSInteger) imageID {
     NSString *idSTR = [NSString stringWithFormat: @"%ld", (long)imageID];
-
+    
     return [self getAPImageWithAtributeInContext:@"image_id" value:idSTR];
 }
 
@@ -104,9 +102,9 @@
 - (void)getAllImages:(void (^)(NSArray *images)) completition{
     __weak typeof(self) weakSelf = self;
     [self.rootSavingContext performBlock:^{
-            NSFetchRequest *request = [[NSFetchRequest alloc]initWithEntityName:@"APImage"];
-            NSArray *images  = [weakSelf.rootSavingContext executeFetchRequest:request error:nil];
-            completition(images);
+        NSFetchRequest *request = [[NSFetchRequest alloc]initWithEntityName:@"APImage"];
+        NSArray *images  = [weakSelf.rootSavingContext executeFetchRequest:request error:nil];
+        completition(images);
     }];
 }
 
@@ -116,8 +114,8 @@
     [self getAllImages:^(NSArray *images) {
         for (APImage *image in images){
             [weakSelf.rootSavingContext deleteObject:image];
-            [weakSelf saveRootContext];
         }
+        [weakSelf saveRootContext];
     }];
     
 }
@@ -138,24 +136,22 @@
 
 
 - (void)createContext {
-    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
-        NSURL *modelURL = [[NSBundle mainBundle] URLForResource:@"APFlickrImageViewer" withExtension:@"momd"];
-        NSManagedObjectModel *mom = [[NSManagedObjectModel alloc] initWithContentsOfURL:modelURL];
-        
-        NSPersistentStoreCoordinator *psc =  [[NSPersistentStoreCoordinator alloc] initWithManagedObjectModel:mom];
-        
-        NSURL *doсURL = [[[NSFileManager defaultManager] URLsForDirectory:NSDocumentDirectory
-                                                                inDomains:NSUserDomainMask] lastObject];
-        NSURL *storeURL = [doсURL URLByAppendingPathComponent:@"APFlickrImageViewer.sqlite"];
-        NSError *error = nil;
-        [psc addPersistentStoreWithType:NSSQLiteStoreType configuration:nil
-                                    URL:storeURL
-                                options:nil
-                                  error:&error];
-        
-        _rootSavingContext = [[NSManagedObjectContext alloc]  initWithConcurrencyType:NSPrivateQueueConcurrencyType];
-        [_rootSavingContext setPersistentStoreCoordinator:psc];        
-    });
+    NSURL *modelURL = [[NSBundle mainBundle] URLForResource:@"APFlickrImageViewer" withExtension:@"momd"];
+    NSManagedObjectModel *mom = [[NSManagedObjectModel alloc] initWithContentsOfURL:modelURL];
+    
+    NSPersistentStoreCoordinator *psc =  [[NSPersistentStoreCoordinator alloc] initWithManagedObjectModel:mom];
+    
+    NSURL *doсURL = [[[NSFileManager defaultManager] URLsForDirectory:NSDocumentDirectory
+                                                            inDomains:NSUserDomainMask] lastObject];
+    NSURL *storeURL = [doсURL URLByAppendingPathComponent:@"APFlickrImageViewer.sqlite"];
+    NSError *error = nil;
+    [psc addPersistentStoreWithType:NSSQLiteStoreType configuration:nil
+                                URL:storeURL
+                            options:nil
+                              error:&error];
+    
+    _rootSavingContext = [[NSManagedObjectContext alloc]  initWithConcurrencyType:NSPrivateQueueConcurrencyType];
+    [_rootSavingContext setPersistentStoreCoordinator:psc];
 }
 
 - (void)saveRootContext {
